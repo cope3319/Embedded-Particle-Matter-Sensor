@@ -3,7 +3,7 @@
 
 
 #define SPS_ADDRESS 0x00 //Address of SPS30 PMS
-// SPS Commands
+// SPS30 Commands from datasheet
 #define SPS_MEASURE_START      0x00 // Start Measurement
 #define SPS_MEASURE_STOP       0x01 // Stop Measurement
 #define SPS_MEASURE_READ       0x03 // Read Measurement
