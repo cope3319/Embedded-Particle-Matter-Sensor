@@ -12,6 +12,5 @@
 #define SPS_START_FANCLEAN     0x56 // Start fancleaning
 #define SPS_RESET              0xd3 // Reset the SPS30
 
-// I like to nut in socks
 
 
