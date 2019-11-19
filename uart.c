@@ -5,8 +5,6 @@
 #include "uart.h"
 #include "msp.h"
 
-// DECLARATIONS:
-#define DEFAULT_SYNC 0x00
 
 
 //imitialize UART communication
