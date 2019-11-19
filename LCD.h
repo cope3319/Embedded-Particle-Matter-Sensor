@@ -13,6 +13,9 @@
 #include <stdio.h>
 #include "Timer.h"
 #include "GPIO.h"
+typedef float float32_t;
+
+
 
 void    initialize_LCD();
 void    bitset();
@@ -22,6 +25,10 @@ void    clear();
 void    entrymode();
 void    toggleE();
 void    LCD_off();
+void write_data(char measured);
+void write_cmd(char cmd);
+void write(char* data, int x, int y);
+void convert(char val);
 
 
 #endif /* LCD_H_ */

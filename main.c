@@ -3,7 +3,7 @@
 
 /**
  * main.c
- */
+ 
 void main(void)
 {
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog timer
@@ -12,5 +12,6 @@ void main(void)
 	char serial[32];
 	char article_code[32];
 	char product_name[32];
-	err = sps_write_auto_clean_int(interval);
+	err = sps_write_auto_clean_int(CleanInterval);
 }
+*/

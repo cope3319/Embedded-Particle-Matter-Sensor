@@ -22,4 +22,5 @@ void LCD_PinConfig(){
     P2->DIR |= 0b1011000;// RS,RW,D5
     P5->DIR |= 0b1000010;// E,D4
     P6->DIR |= 0b11000000;// D6,D7
+    
 }
