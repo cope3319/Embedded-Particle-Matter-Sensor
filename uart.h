@@ -1,13 +1,18 @@
 
 // UART HEADER DRIVER CONNOR BRANCH
+
 #ifndef UART_H
 #define UART_H
+
+#include "msp.h"
+
+
 
 //imitialize UART communication
 int16_t uart_init();
 
 
-// enc UART communication
+// end UART communication
 int16_t uart_end();
 
 /*

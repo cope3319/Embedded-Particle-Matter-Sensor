@@ -3,6 +3,11 @@
 */ 
 
 #include "uart.h"
+#include "msp.h"
+
+// DECLARATIONS:
+#define DEFAULT_SYNC 0x00
+
 
 //imitialize UART communication
 int16_t uart_init() {
@@ -11,7 +16,7 @@ int16_t uart_init() {
 }
 
 
-// enc UART communication
+// end UART communication
 int16_t uart_end() {
     //implement here
     return 0;
