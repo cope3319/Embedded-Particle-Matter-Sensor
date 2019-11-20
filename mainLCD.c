@@ -19,7 +19,7 @@ char p1[] = "P1=";
 char p2[] = "P2=";
 char p3[] = "P3=";
 char p4[] = "P4=";
-
+delay_ms(10);
 write(p1,0,0);
 write(p2,5,0);
 write(p3,0,1);

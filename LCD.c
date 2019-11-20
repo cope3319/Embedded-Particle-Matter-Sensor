@@ -191,5 +191,6 @@ void convert(char val){
     else{
     P5->OUT &= ~BIT1;
     }
+    delay_ms(10);
 }
 
