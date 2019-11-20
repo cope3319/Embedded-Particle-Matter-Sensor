@@ -11,5 +11,31 @@
 #define SPS_FANCLEAN_INT       0x80 // Read/Write Auto Cleaning interval
 #define SPS_START_FANCLEAN     0x56 // Start fancleaning
 #define SPS_RESET              0xd3 // Reset the SPS30
+#define UART_MODE              0x0100
+#define SMCLK                  0x00C0
+#define UC8BIT                 0x1000
+#define UCPEN                  0x8000
+#define UCSPB                  0x0800
 
 
+void sps30Config(){
+    eUSCI_A -> CTLW0 &= ~(UART_MODE);   //Set UCSYNC to Asychronous mode
+    eUSCI_A -> CTLW0 |= (SMCLK);        //Set UCSSELx to SMCLK
+    // prescalar or divider for baud rate selection
+    eUSCI_A -> CTLW0 &= ~(UC8BIT);      //Set UC7BIT to 8 bit mode
+    eUSCI_A -> CTLW0 &= ~(UCPEN);       //Set UCPEN to parity disable
+    eUSCI_A -> CTLW0 &= ~(UCSPB);       //Set UCSPB to one stop bit
+}
+
+void sps30start(){
+    // send data here
+}
+
+void sps30_send_data(uint8_t * data) {
+
+}
+
+
+void send_byte(uint8_t byte) {
+    eUSCI_A -> TXBUF = byte;
+}
