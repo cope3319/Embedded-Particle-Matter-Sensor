@@ -1,6 +1,6 @@
 #ifndef SPS30_H
 #define SPS30_H
-
+#include "msp.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -30,8 +30,8 @@ struct value {
 struct value value;
 */
 
-
-
+void sps30Config();
+uint16_t send_byte(uint8_t byte);
 int16_t start_measurement();
 int16_t stop_measurment();
 int16_t sps_reset();

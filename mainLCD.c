@@ -1,4 +1,4 @@
-#include "LCD.h"
+/*#include "LCD.h"
 #include "msp.h"
 #include <string.h>
 #include <stdio.h>
@@ -8,7 +8,7 @@
 /**
  * main.c
  */
-void main(void)
+/*void main(void)
 {
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog timer
 	//SPS_PinConfig();
@@ -38,3 +38,4 @@ write(number_string,0,0);
 //}
 
 }
+*/

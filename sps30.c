@@ -18,18 +18,42 @@
 #define SUB_CMD_SERIAL_NUMBER               0x03
 #define SUB_CMD_ARTICLE_CODE                0x02
 #define SUB_CMD_PRODUCT_NAME                0x01
+#define UART_MODE              0x0100
+#define SMCLK                  0x00C0
+#define UC8BIT                 0x1000
+#define UCPEN                  0x8000
+#define UCSPB                  0x0800
+#define UCABDEN                0x0001
+
+
+void sps30Config(){
+    EUSCI_A0->CTLW0 &= ~(UART_MODE);   //Set UCSYNC to Asychronous mode
+    EUSCI_A0->CTLW0 |= (SMCLK);        //Set UCSSELx to SMCLK
+    EUSCI_A0->ABCTL |= (UCABDEN);
+    // prescalar or divider for baud rate selection
+    EUSCI_A0->CTLW0 &= ~(UC8BIT);      //Set UC7BIT to 8 bit mode
+    EUSCI_A0->CTLW0 &= ~(UCPEN);       //Set UCPEN to parity disable
+    EUSCI_A0->CTLW0 &= ~(UCSPB);       //Set UCSPB to one stop bit
+}
+
+
+uint16_t send_byte(uint8_t byte){
+    EUSCI_A0->TXBUF = byte;
+    while(!(((EUSCI_A0 -> IFG) & 0x0002)==0x0002));
+}
+
 
 
 int16_t start_measurement(){
     struct sensirion_shdlc_rx_header rx_header;
     uint8_t strt = SUB_CMD_START;
-    return sensirion_shdlc_xvc(SPS_ADDRESS, SPS_MEASURE_START, sizeof(strt) ,strt , 0 , &rx_header , NULL);
+    return sensirion_shdlc_xcv(SPS_ADDRESS, SPS_MEASURE_START, sizeof(strt) ,strt , 0 , &rx_header , NULL);
 
 }
 
 int16_t stop_measurment(){
     struct sensirion_shdlc_rx_header rx_header;
-    return sensirion_shdlc_xvc(SPS_ADDRESS, SPS_MEASURE_STOP,0, NULL,0,&rx_header, NULL);
+    return sensirion_shdlc_xcv(SPS_ADDRESS, SPS_MEASURE_STOP,0, NULL,0,&rx_header, NULL);
 }
 
 int16_t sps_reset(){
@@ -38,14 +62,14 @@ int16_t sps_reset(){
 
 int16_t sps_start_cleaning(){
     struct sensirion_shdlc_rx_header rx_header;
-    return sensirion_shdlc_xvc(SPS_ADDRESS, SPS_START_FANCLEAN,0, NULL,0,&rx_header, NULL);
+    return sensirion_shdlc_xcv(SPS_ADDRESS, SPS_START_FANCLEAN,0, NULL,0,&rx_header, NULL);
 }
 
 int16_t sps_read_auto_clean_int(uint32_t *interval){
     struct sensirion_shdlc_rx_header rx_header;
     uint8_t sub_cmd = SUB_CMD_READ_AUTO_CLEAN_INT;
     int16_t err = 0;
-    err = sensirion_shdlc_xvc(SPS_ADDRESS, SPS_FANCLEAN_INT, sizeof(sub_cmd),sub_cmd,sizeof(*interval),&rx_header, (uint8_t *)interval);
+    err = sensirion_shdlc_xcv(SPS_ADDRESS, SPS_FANCLEAN_INT, sizeof(sub_cmd),sub_cmd,sizeof(*interval),&rx_header, (uint8_t *)interval);
 
 if(rx_header.state != 0)
     return rx_header.state;
@@ -62,7 +86,7 @@ int16_t sps_write_auto_clean_int(uint32_t interval){
         length[i] = (uint8_t)(val << (i*8));
     }
     
-    return sensirion_shdlc_xvc(SPS_ADDRESS, SPS_FANCLEAN_INT, sizeof(length),(const uint8_t *)length/*pointer to data*/,sizeof(interval),&rx_header,(uint8_t *) &interval/*pointer to the address of interval*/); //use pointer so we can use interval in other places
+    return sensirion_shdlc_xcv(SPS_ADDRESS, SPS_FANCLEAN_INT, sizeof(length),(const uint8_t *)length/*pointer to data*/,sizeof(interval),&rx_header,(uint8_t *) &interval/*pointer to the address of interval*/); //use pointer so we can use interval in other places
 }
 
 
@@ -71,7 +95,7 @@ struct sensirion_shdlc_rx_header rx_header;
 uint32_t data[10];
 uint32_t val;
 int16_t err;
-err = sensirion_shdlc_xvc(SPS_ADDRESS, SPS_MEASURE_READ,0,NULL,sizeof(data),&rx_header,(uint8_t *) data);
+err = sensirion_shdlc_xcv(SPS_ADDRESS, SPS_MEASURE_READ,0,NULL,sizeof(data),&rx_header,(uint8_t *) data);
 
 if(err != 0)
 return err;
@@ -113,7 +137,7 @@ int16_t get_serial_number(char * serial){
     int16_t err = 0;
     uint8_t sub_cmd = SUB_CMD_SERIAL_NUMBER;
 
-err = sensirion_shdlc_xvc(SPS_ADDRESS, SPS_DEV_INFO,sizeof(sub_cmd),sub_cmd,32,&rx_header,(uint8_t *) serial);
+err = sensirion_shdlc_xcv(SPS_ADDRESS, SPS_DEV_INFO,sizeof(sub_cmd),sub_cmd,32,&rx_header,(uint8_t *) serial);
 
 if(err != 0)
 return err;
@@ -129,7 +153,7 @@ int16_t get_article_code(char * article_code){
     int16_t err = 0;
     uint8_t sub_cmd = SUB_CMD_ARTICLE_CODE;
 
-err = sensirion_shdlc_xvc(SPS_ADDRESS, SPS_DEV_INFO,sizeof(sub_cmd),sub_cmd,32,&rx_header,(uint8_t *) article_code);
+err = sensirion_shdlc_xcv(SPS_ADDRESS, SPS_DEV_INFO,sizeof(sub_cmd),sub_cmd,32,&rx_header,(uint8_t *) article_code);
 
 if(err != 0)
 return err;
@@ -145,7 +169,7 @@ int16_t get_product_name(char * product_name){
     int16_t err = 0;
     uint8_t sub_cmd = SUB_CMD_PRODUCT_NAME;
 
-err = sensirion_shdlc_xvc(SPS_ADDRESS, SPS_DEV_INFO,sizeof(sub_cmd),sub_cmd,32,&rx_header,(uint8_t *) product_name);
+err = sensirion_shdlc_xcv(SPS_ADDRESS, SPS_DEV_INFO,sizeof(sub_cmd),sub_cmd,32,&rx_header,(uint8_t *) product_name);
 
 if(err != 0)
 return err;
