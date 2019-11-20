@@ -51,25 +51,23 @@
 #define EUSCI_A_UART_DEGLITCH_TIME_50ns                         0x0001
 #define EUSCI_A_UART_DEGLITCH_TIME_100ns                        0x0002
 #define EUSCI_A_UART_DEGLITCH_TIME_200ns                        (0x0001 + 0x0002)
-// and also this struct for the configuration definitions
-typedef struct _eUSCI_eUSCI_UART_Config {
-    uint_fast8_t selectClockSource;
-    uint_fast16_t clockPrescalar;
-    uint_fast8_t firstModReg;
-    uint_fast8_t secondModReg;
-    uint_fast8_t parity;
-    uint_fast16_t msborLsbFirst;
-    uint_fast16_t numberofStopBits;
-    uint_fast16_t uartMode;
-    uint_fast8_t overSampling;
-} eUSCI_UART_Config;
-/*
-  END from MSP432 UART page
-*/
 
+typedef struct EUSCI_config_struct {
+    uint_fast16_t parityEN;
+    uint_fast16_t MSB;
+    uint_fast16_t bits;
+    uint_fast16_t stopBit;
+    uint_fast16_t eUSCImode;
+    uint_fast16_t synch;
+    uint_fast16_t clockSel;
+    uint_fast8_t baudN;
+    uint_fast8_t baudE; 
+} EUSCI_config;
+
+#define basicCTLW0 0x0007;
 
 //imitialize UART communication
-int16_t uart_init(const eUSCI_UART_Config *config);
+int16_t uart_init(const EUSCI_config *config);
 
 
 // end UART communication
