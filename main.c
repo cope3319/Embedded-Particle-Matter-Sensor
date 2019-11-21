@@ -18,9 +18,9 @@ void main(void)
 	send_byte(0x00);
 	send_byte(0x01);
 	send_byte(0x00);
-	send_byte(0x01);
+	send_byte(0x02);
 	send_byte(0x00);
-	send_byte(0x01);
+	send_byte(0x21);
 
 
 	//char serial[32];
