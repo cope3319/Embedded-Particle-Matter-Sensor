@@ -35,7 +35,7 @@ int16_t uart_tx(uint8_t data){
     //interrupt check
     transInt = (UCAxIE & 0b0010);
     if(transInt == 0b0010)
-        while((UCAxIFG & 0b0010) == 0b0010);
+        while((UCAxIFG & 0b0010) == 0b0010); //wait for intterupt to clear
     UCAxTXBUF = data; //put data in tx buffer
     return 0; 
 }

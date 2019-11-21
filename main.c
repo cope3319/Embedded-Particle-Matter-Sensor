@@ -7,7 +7,18 @@
 /**
  * main.c
  */
-
+const EUSCI_config spsConfig = {
+    EUSCI_config config;
+    config.parityEN = noParity;
+    config.MSB = LSBfirst;
+    config.bits = bits8;
+    config.stopBit = oneStopBit;
+    config.eUSCImode = noParity;
+    config.synch = noParity;
+    config.clockSel = noParity;
+    config.baudN = baudScaler;
+    config.baudE = baudDec;
+}
 
 void main(void)
 {
