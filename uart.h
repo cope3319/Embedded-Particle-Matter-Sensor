@@ -67,24 +67,22 @@ typedef struct EUSCI_config_struct {
 #define basicCTLW0 0x0007;
 
 //imitialize UART communication
-int16_t uart_init(const EUSCI_config *config);
+uint8_t uart_init(const EUSCI_config config);
 
 
 /*
 Transmit over UART- 
-  -> len:     # of bytes to send
   -> @data:   data to send
   Returns # of bytes sent. 
 */
-int16_t uart_tx(uint16_t len, const uint8_t *data);
+uint8_t uart_tx(const uint8_t *data);
 
 /*
 Recieve over UART-
-  -> max_len:  max # of bytes to recieve
   -> @data:    memory allocation for data
   Returns: # of bytes recieved
 */
-int16_t uart_rx(uint16_t max_len, uint8_t *data);
+int16_t uart_rx(uint8_t *data);
 
 /*
 Sleep for a given time- 

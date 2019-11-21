@@ -1,5 +1,6 @@
 #include "sps30.h"
 #include "sensiron_shdlc.h"
+#include "uart.h"
 
 
 #define SPS_ADDRESS 0x00 //Address of SPS30 PMS
@@ -28,7 +29,7 @@
 #define baudDec 0x9200; //for .40
 
 
-void sps30start(){
+const EUSCI_config spsConfig = {
     EUSCI_config config;
     config.parityEN = noParity;
     config.MSB = LSBfirst;

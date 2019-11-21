@@ -8,7 +8,7 @@
 
 
 //imitialize UART communication
-int16_t uart_init(const eUSCI_UART_Config *config) {
+int16_t uart_init(const EUSCI_config config) {
     UCAxCTLW0 = 0x0001; // Set UCSWRST High
     //Initialize all eUSCI_A registers in one
     UCAxCTLW0 = (basicCTLW0 + config->parityEn + config->MSB + config->bits + 
@@ -31,8 +31,13 @@ Transmit over UART-
   -> @data:   data to send
   Returns # of bytes sent. 
 */
-int16_t uart_tx(uint16_t len, const uint8_t *data){
-    //implement this 
+int16_t uart_tx(uint8_t data){
+    //interrupt check
+    transInt = (UCAxIE & 0b0010);
+    if(transInt == 0b0010)
+        while((UCAxIFG & 0b0010) == 0b0010);
+    UCAxTXBUF = data; //put data in tx buffer
+    return 0; 
 }
 
 /*
@@ -41,7 +46,7 @@ Recieve over UART-
   -> @data:    memory allocation for data
   Returns: # of bytes recieved
 */
-int16_t uart_rx(uint16_t max_len, uint8_t *data){
+int16_t uart_rx(uint8_t *data){
     //implement this
 }
 

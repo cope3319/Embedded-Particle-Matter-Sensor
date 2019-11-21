@@ -1,15 +1,20 @@
 #include "msp.h"
+#include "sensirion_shdlc.h"
+#include "uart.h"
+#include "sps30.h"
 
 
 /**
  * main.c
  */
 
-# define STARTMEASUREMENT 
 
 void main(void)
 {
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog timer
-	
-	send_byte()
+	int16_t ret = 1;
+	ret = uart_init(spsConfig);
+	uint8_t data = 0x7A;
+	ret = uart_tx(data);
+	while(ret)
 }
