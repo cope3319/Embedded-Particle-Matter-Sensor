@@ -27,19 +27,19 @@
 
 
 void sps30Config(){
-    EUSCI_A0->CTLW0 &= ~(UART_MODE);   //Set UCSYNC to Asychronous mode
-    EUSCI_A0->CTLW0 |= (SMCLK);        //Set UCSSELx to SMCLK
-    EUSCI_A0->ABCTL |= (UCABDEN);
+    EUSCI_A2->CTLW0 &= ~(UART_MODE);   //Set UCSYNC to Asychronous mode
+    EUSCI_A2->CTLW0 |= (SMCLK);        //Set UCSSELx to SMCLK
+    EUSCI_A2->ABCTL |= (UCABDEN);
     // prescalar or divider for baud rate selection
-    EUSCI_A0->CTLW0 &= ~(UC8BIT);      //Set UC7BIT to 8 bit mode
-    EUSCI_A0->CTLW0 &= ~(UCPEN);       //Set UCPEN to parity disable
-    EUSCI_A0->CTLW0 &= ~(UCSPB);       //Set UCSPB to one stop bit
+    EUSCI_A2->CTLW0 &= ~(UC8BIT);      //Set UC7BIT to 8 bit mode
+    EUSCI_A2->CTLW0 &= ~(UCPEN);       //Set UCPEN to parity disable
+    EUSCI_A2->CTLW0 &= ~(UCSPB);       //Set UCSPB to one stop bit
 }
 
 
 uint16_t send_byte(uint8_t byte){
-    EUSCI_A0->TXBUF = byte;
-    while(!(((EUSCI_A0 -> IFG) & 0x0002)==0x0002));
+    EUSCI_A2->TXBUF = byte;
+    while(!(((EUSCI_A2 -> IFG) & 0x0002)==0x0002));
 }
 
 

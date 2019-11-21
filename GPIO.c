@@ -15,8 +15,7 @@
 void SPS_PinConfig(){
     P3->DIR |= 0b1000;//Pin 3 TX output
     P3->DIR &= 0b0100;//Pin 2 RX input
-    P3->SEL0 |= 0b1000;
-    P3->SEL1 &= ~(0b0100);
+    P3->SEL0 |= 0b1000 | 0b0100;
 }
 
 void LCD_PinConfig(){
