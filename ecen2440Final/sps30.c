@@ -18,15 +18,21 @@
 #define UCPEN                  0x8000
 #define UCSPB                  0x0800
 
-#define noParity   0x0000;
-#define LSBfirst   0x0000;
-#define bits8      0x0000;
-#define oneStopBit 0x0000;
-#define uartMode   0x0000;
-#define async      0x0000;
-#define SMCLKsel   0x0080;
-#define baudScaler 0x2B; //5M / 115200 ~ 43
-#define baudDec 0x9200; //for .40
+
+
+
+const EUSCI_config spsConfig = {
+    EUSCI_config config;
+    config.parityEN = noParity;
+    config.MSB = LSBfirst;
+    config.bits = bits8;
+    config.stopBit = oneStopBit;
+    config.eUSCImode = noParity;
+    config.synch = noParity;
+    config.clockSel = noParity;
+    config.baudN = baudScaler;
+    config.baudE = baudDec;
+}
 
 void sps30_send_data(uint8_t * data) {
  
