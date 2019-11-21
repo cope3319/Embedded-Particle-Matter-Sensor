@@ -70,9 +70,6 @@ typedef struct EUSCI_config_struct {
 int16_t uart_init(const EUSCI_config *config);
 
 
-// end UART communication
-int16_t uart_end();
-
 /*
 Transmit over UART- 
   -> len:     # of bytes to send

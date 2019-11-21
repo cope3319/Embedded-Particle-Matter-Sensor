@@ -25,13 +25,6 @@ int16_t uart_init(const eUSCI_UART_Config *config) {
     return 0;
 }
 
-
-// end UART communication
-int16_t uart_end() {
-    //implement here
-    return 0;
-}
-
 /*
 Transmit over UART- 
   -> len:     # of bytes to send
