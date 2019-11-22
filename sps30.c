@@ -17,6 +17,18 @@
 #define UCPEN                  0x8000
 #define UCSPB                  0x0800
 
+<<<<<<< Updated upstream
+=======
+#define noParity   0x8000;         // Bit down
+#define LSBfirst   0x2000;         // Bit down
+#define bits8      0x1000;         // Bit Down
+#define oneStopBit 0x0000;
+#define uartMode   0x0000;
+#define async      0x0000;
+#define SMCLKsel   0x0080;
+#define baudScaler 0x2B; //5M / 115200 ~ 43
+#define baudDec 0x9200; //for .40
+>>>>>>> Stashed changes
 
 void sps30Config(){
     eUSCI_A -> CTLW0 &= ~(UART_MODE);   //Set UCSYNC to Asychronous mode
