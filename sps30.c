@@ -18,13 +18,13 @@
 #define UCPEN                  0x8000
 #define UCSPB                  0x0800
 
-#define noParity   0x0000;
-#define LSBfirst   0x0000;
-#define bits8      0x0000;
-#define oneStopBit 0x0000;
-#define uartMode   0x0000;
-#define async      0x0000;
-#define SMCLKsel   0x0080;
+#define noParity   0x8000;          // Bit Low
+#define LSBfirst   0x2000;          // Bit Low
+#define bits8      0x1000;          // Bit Low
+#define oneStopBit 0x0800;          // Bit Low
+#define uartMode   0x0600;          // BitsLow
+#define async      0x0100;          // Bit Low
+#define SMCLKsel   0x00C0;          // Bit Low
 #define baudScaler 0x2B; //5M / 115200 ~ 43
 #define baudDec 0x9200; //for .40
 

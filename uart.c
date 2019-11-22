@@ -9,19 +9,21 @@
 
 //imitialize UART communication
 int16_t uart_init(const EUSCI_config config) {
-    UCAxCTLW0 = 0x0001; // Set UCSWRST High
+    EUSCI_A -> CTLW0 |= (0x0001); // Set UCSWRST High
     //Initialize all eUSCI_A registers in one
-    UCAxCTLW0 = (basicCTLW0 + config->parityEn + config->MSB + config->bits + 
+    EUSCI_A -> CTLW0 &= ~(basicCTLW0 + config->parityEn + config->MSB + config->bits + 
                               config->stopBit + config->eUSCImode + config->sync +
                               config->clockSel); 
     if(config->baudN < 16) {
-        UCAxMCTLW = config->baudE; 
-        UCAxBRW = config->baudN;
+        EUSCI_A -> MCTLW = config->baudE; 
+        EUSCI_A -> BRW = config->baudN;
     }
     else {
-        UCAxBRW = config->baudN;
-        UCAxMCTLW = 0b1 + config->baudE + 0x60; //oversampling enabled
+        EUSCI_A -> BRW = config->baudN;
+        EUSCI_A -> MCTLW = 0b1 + config->baudE + 0x60; //oversampling enabled
     }
+
+    EUSCI_A -> CTLW0 &= ~(0x0001); // Set UCSWRST High
     return 0;
 }
 
