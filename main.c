@@ -7,7 +7,7 @@
 /**
  * main.c
  */
-const EUSCI_config spsConfig = {
+const EUSCI_config spsConfig = { //config structure
     EUSCI_config config;
     config.parityEN = noParity;
     config.MSB = LSBfirst;
