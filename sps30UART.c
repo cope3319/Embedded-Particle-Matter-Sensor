@@ -11,7 +11,7 @@
    > Pin 3.2 - TX
    > Pin 3.3 - RX
 */
-void config_sps_uart(void){
+int config_sps_uart(void){
     EUSCI_A0->CTLW0 |= EUSCI_A_CTLW0_SWRST; // Setting software reset enable
 
     //uart settings config
@@ -23,27 +23,36 @@ void config_sps_uart(void){
 
     EUSCI_A0->CTLW0 &= ~(EUSCI_A_CTLW0_SWRST); // Clear software reset
 
-    EUSCI_A0->IE &= 0; // No interrupts enabled
-    EUSCI_A0->IFG = 0; // Clear all EUSCI_A0 interrupts
+    EUSCI_A0->IE |= 0b11; // Transmit, and Recieve interrupt enabled
+    EUSCI_A0->IFG = 0;      // Clear all EUSCI_A0 interrupts
+    return 0;
 }
 
-void sps_start_measurement(){
-    uin8_t data[] = {0x7E 0x00 0x02 };
+void sps_uart_send(uint16_t len, uint8_t *data){
+    uint16_t count = 0;
+    while(count <= len){
+        while(EUSCI_A0->IFG < 2); // wait for transmit interrupt flags to clear
+        EUSCI_A0->TXBUF = data[count]; //store data in TX buffer
+        count++;
+    }
 }
 
-void sps_uart_send(uint8_t data[]){
-    if(EUSCI_A0->IE) // if there is enabled interrupts 
-        while(EUSCI_A0->IFG); // wait for interrupt flags to clear
+uint8_t sps_uart_recieve(uint16_t max_data_len, uint8_t *data){
+    uint16_t count = 0;
+    uint8_t lastVar = 0;
+    while((count < max_data_len)|((lastVar = 0x7E && count != 1))){
+        while(EUSCI_A0->IFG == 0b1); // wait for interrupt flags to clear
+        data[count] = EUSCI_A0->RXBUF;
+        lastVar = data[count]; //to check for indicator last bit
+        count++;
+    }
     
-    EUSCI_A0->TXBUF = data; //store data in TX buffer
+    return count; // return number of bits recieved
 }
 
-uint8_t sps_uart_recieve(){
-    if(EUSCI_A0->IE) // if there is enabled interrupts
-        while(EUSCI_A0->IFG); // wait for interrupt flags to clear
-
-    return EUSCI_A0->RXBUF; // return 8-bit data in RX buffer
+void sps_sleep(uint32_t useconds) {
+    int ticks = useconds * 3; 
+    int i = 0;
+    while(i<=ticks) i++;
 }
 
-//thoughts- use interrupts and a for loop to gather data with a count to count
-//start and last indicator bit- we can maybe get around shdlc

@@ -1,9 +1,10 @@
 #ifndef GPIO_H
 #define GPIO_H
 
-#include "sensiron_shdlc.h"
-#include "uart.h"
+#include "sensirion_shdlc.h"
+#include "sps30UART.h"
 
 void config_uart_gpio(void);
 
 #endif // GPIO_H
+

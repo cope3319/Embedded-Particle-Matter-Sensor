@@ -31,7 +31,7 @@
 
 #include "sensirion_shdlc.h"
 #include "sensirion_arch_config.h"
-#include "sensirion_uart.h"
+#include "sps30UART.h"
 
 #define SHDLC_START 0x7e
 #define SHDLC_STOP 0x7e
@@ -110,7 +110,7 @@ int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len,
     if (ret != 0)
         return ret;
 
-    sensirion_sleep_usec(RX_DELAY_US);
+    sps_sleep(RX_DELAY_US);
     return sensirion_shdlc_rx(max_rx_data_len, rx_header, rx_data);
 }
 
@@ -131,7 +131,7 @@ int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
     len += sensirion_shdlc_stuff_data(1, &crc, tx_frame_buf + len);
     tx_frame_buf[len++] = SHDLC_STOP;
 
-    ret = sensirion_uart_tx(len, tx_frame_buf);
+    sps_uart_send(len, tx_frame_buf);
     if (ret < 0)
         return ret;
     if (ret != len)
@@ -150,7 +150,7 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
     uint8_t crc;
     uint8_t unstuff_next;
 
-    len = sensirion_uart_rx(2 + (5 + (uint16_t)max_data_len) * 2, rx_frame);
+    len = sps_uart_recieve(2 + (5 + (uint16_t)max_data_len) * 2, rx_frame);
     if (len < 1 || rx_frame[0] != SHDLC_START)
         return SENSIRION_SHDLC_ERR_MISSING_START;
 
