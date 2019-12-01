@@ -13,6 +13,7 @@
 void main(void)
 {
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog timer
+    config_uart_gpio();
 	
     struct sps30_measurement m;
     char serial[32];
