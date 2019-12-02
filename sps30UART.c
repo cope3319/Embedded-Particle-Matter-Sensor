@@ -9,8 +9,8 @@
 
 /*
 changed all EUSCI_A0 to EUSCI_A2
-   > Pin 3.2 - TX
-   > Pin 3.3 - RX
+   > Pin 3.2 - TX this is rx
+   > Pin 3.3 - RX this is tx 
 */
 int config_sps_uart(void){
     EUSCI_A2->CTLW0 |= EUSCI_A_CTLW0_SWRST; // Setting software reset enable
