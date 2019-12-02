@@ -132,10 +132,6 @@ int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
     tx_frame_buf[len++] = SHDLC_STOP;
 
     sps_uart_send(len, tx_frame_buf);
-    if (ret < 0)
-        return ret;
-    if (ret != len)
-        return SENSIRION_SHDLC_ERR_TX_INCOMPLETE;
     return 0;
 }
 
