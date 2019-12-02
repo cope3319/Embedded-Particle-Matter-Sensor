@@ -11,6 +11,19 @@
    > Pin 3.2 - RX
    > Pin 3.3 - TX
 */
+
+extern volatile uint8_t data[256];
+extern volatile uint8_t lastVar; 
+extern volatile uint8_t count;
+
+void EUSCIA2_IRQHandler() {
+    __disable_irq();
+    if(EUSCI_A2->IFG & UCRXIFG) {
+        sps_uart_recieve();
+    }
+    __enable_irq();
+}
+
 int config_sps_uart(void){
     EUSCI_A2->CTLW0 |= EUSCI_A_CTLW0_SWRST; // Setting software reset enable
 
@@ -23,7 +36,8 @@ int config_sps_uart(void){
 
     EUSCI_A2->CTLW0 &= ~(EUSCI_A_CTLW0_SWRST); // Clear software reset
 
-    EUSCI_A2->IE |= 0b1011; // Transmit, and Recieve interrupt enabled
+    EUSCI_A2->IE |= 0b01; // Transmit, and Recieve interrupt enabled
+    NVIC_EnableIRQ(EUSCIA2_IRQn);
     return 0;
 }
 
@@ -36,15 +50,11 @@ void sps_uart_send(uint16_t len, uint8_t *data){
     }
 }
 
-uint8_t sps_uart_recieve(uint16_t max_data_len, uint8_t *data){
-    uint16_t count = 0;
-    uint8_t lastVar = 0;
-    while((count < max_data_len)|((lastVar = 0x7E && count != 1))){
-        while(EUSCI_A2->IFG == 0b1); // wait for interrupt flags to clear
-        data[count] = EUSCI_A2->RXBUF;
-        lastVar = data[count]; //to check for indicator last bit
-        count++;
-    }
+uint8_t sps_uart_recieve(){
+    lastVar = 0;
+    data[count] = EUSCI_A2->RXBUF;
+    lastVar = data[count]; //to check for indicator last bit
+    count++;
     
     return count; // return number of bits recieved
 }
@@ -54,4 +64,5 @@ void sps_sleep(uint32_t useconds) {
     int i = 0;
     while(i<=ticks) i++;
 }
+
 

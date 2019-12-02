@@ -32,6 +32,7 @@
 #include "sensirion_shdlc.h"
 #include "sensirion_arch_config.h"
 #include "sps30UART.h"
+#include "Timer.h"
 
 #define SHDLC_START 0x7e
 #define SHDLC_STOP 0x7e
@@ -110,7 +111,7 @@ int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len,
     if (ret != 0)
         return ret;
 
-    sps_sleep(RX_DELAY_US);
+    delay_ms(5);
     return sensirion_shdlc_rx(max_rx_data_len, rx_header, rx_data);
 }
 

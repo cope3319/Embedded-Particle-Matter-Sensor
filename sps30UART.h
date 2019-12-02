@@ -30,10 +30,12 @@ void sps_uart_send(uint16_t len, uint8_t *data);
 /* Recieve data over the RX line
    - RETURNS: bits recieved 
 */  
-uint8_t sps_uart_recieve(uint16_t max_data_len, uint8_t *data);
+uint8_t sps_uart_recieve();
 
 // Pause for a certain time interval
 void sps_sleep(uint32_t useconds);
+
+void EUSCIA2_IRQHandler(); 
 
 #endif /* sps30UART.h */
 

@@ -4,12 +4,12 @@
  *  Created on: Nov 14, 2019
  *      Author: Kanin
  */
-#include "LCD.h"
+//#include "LCD.h"
 #include "msp.h"
 #include <string.h>
 #include <stdio.h>
 #include "Timer.h"
-#include "GPIO.h"
+//#include "GPIO.h"
 
 
 //need milliseconds
