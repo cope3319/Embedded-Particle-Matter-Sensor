@@ -11,9 +11,9 @@
  * main.c
  */
 
-volatile uint8_t data[256];
+volatile uint8_t dataEx[256];
 volatile uint8_t lastVar;
-volatile uint16_t count = 0;
+volatile uint16_t countEx = 0;
 
 void main(void)
 {
@@ -27,19 +27,19 @@ void main(void)
 
     while (config_sps_uart() != 0) {
         printf("UART init failed\n");
-        sps_sleep(1); /* sleep for 1s */
+        sps_sleep(1000000); /* sleep for 1s */
     }
 
     /* Busy loop for initialization, because the main loop does not work without
      * a sensor.
      */
-    //while (sps30_probe() != 0) {
-    //    printf("SPS30 sensor probing failed\n");
-    //    delay_ms(1);
-    //}
-    //printf("SPS30 sensor probing successful\n");
+//    while (sps30_probe() != 0) {
+//        printf("SPS30 sensor probing failed\n");
+//        sps_sleep(1);
+//    }
+//    printf("SPS30 sensor probing successful\n");
 //
-//    ret = /(serial);
+//    ret = (serial);
 //    if (ret)
 //        printf("error %d reading serial\n", ret);
 //    else
@@ -56,15 +56,14 @@ void main(void)
 
     do {
         ret = sps30_read_measurement(&m);
-        if (ret < 0) {
-            printf("error reading measurement\n");
-
-        } else {
-            if (SPS30_IS_ERR_STATE(ret)) {
-                printf("Chip state: %u - measurements may not be accurate\n",
-                       SPS30_GET_ERR_STATE(ret));
-            }
-
+//        if (ret < 0) {
+//            printf("error reading measurement\n");
+//
+//        } else {
+//            if (SPS30_IS_ERR_STATE(ret)) {
+//                printf("Chip state: %u - measurements may not be accurate\n",
+//                       SPS30_GET_ERR_STATE(ret));
+//            }
             printf("measured values:\n"
                    "\t%0.2f pm1.0\n"
                    "\t%0.2f pm2.5\n"
@@ -78,9 +77,9 @@ void main(void)
                    "\t%0.2f typical particle size\n\n",
                    m.mc_1p0, m.mc_2p5, m.mc_4p0, m.mc_10p0, m.nc_0p5, m.nc_1p0,
                    m.nc_2p5, m.nc_4p0, m.nc_10p0, m.typical_particle_size);
-        }
+//        }
 
-        delay_ms(1); /* sleep for 1s */
+        delay_ms(1000); /* sleep for 1s */
     } while (1);
 
 }
