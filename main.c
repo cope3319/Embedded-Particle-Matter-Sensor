@@ -20,7 +20,7 @@ void main(void)
     const uint8_t AUTO_CLEAN_DAYS = 4;
     int16_t ret;
 
-    while (sensirion_uart_open() != 0) {
+    while (config_sps_uart() != 0) {
         printf("UART init failed\n");
         sps_sleep(1000000); /* sleep for 1s */
     }
