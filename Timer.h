@@ -8,11 +8,11 @@
 #ifndef TIMER_H_
 #define TIMER_H_
 
-#include "LCD.h"
+//#include "LCD.h"
 #include "msp.h"
 #include <string.h>
 #include <stdio.h>
-#include "GPIO.h"
+//#include "GPIO.h"
 
 
 #define SYSTEM_CLOCK 3000000 // [Hz] system_msp432p401r.c
