@@ -54,8 +54,7 @@
 //    return SPS_DRV_VERSION_STR;
 //}
 
-int16_t sps30_probe() {
-    char serial[SPS30_MAX_SERIAL_LEN];
+int16_t sps30_probe(char *serial) {
     int16_t ret = sps30_get_serial(serial);
 
     return ret;
@@ -107,9 +106,8 @@ int16_t sps30_read_measurement(struct sps30_measurement *measurement) {
                               sizeof(data), &header, (uint8_t *)data);
     if (ret)
         return ret;
-
-    if (header.data_len != sizeof(data))
-        return SPS30_ERR_NOT_ENOUGH_DATA;
+//    if (header.data_len != sizeof(data))
+//        return SPS30_ERR_NOT_ENOUGH_DATA;
 
     idx = 0;
     val.u32_value = be32_to_cpu(data[idx].u32_value);

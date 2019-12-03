@@ -37,5 +37,7 @@ void sps_sleep(uint32_t mseconds);
 
 void EUSCIA2_IRQHandler(); 
 
+uint16_t data_recieved(uint8_t *data);
+
 #endif /* sps30UART.h */
 

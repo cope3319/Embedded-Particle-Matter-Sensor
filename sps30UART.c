@@ -59,8 +59,22 @@ uint8_t sps_uart_recieve(){
     return countEx; // return number of bits recieved
 }
 
-void sps_sleep(uint32_t mSeconds) {
+uint16_t data_recieved(uint8_t *data){
+    uint16_t length = countEx;
+    countEx = 0;
+    uint16_t i = 0;
+    while(i<length){
+        data[i] = dataEx[i]; 
+        i++;
+    }
+    return length;
+}
 
+void sps_sleep(uint32_t uSeconds) {
+    int i;
+    int ticks = uSeconds /1000;
+    while (i < ticks)
+        i++;
 }
 
 

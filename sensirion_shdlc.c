@@ -115,7 +115,7 @@ int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len,
     if (ret != 0)
         return ret;
 
-    delay_ms(1000);
+    delay_ms(200000);
     return sensirion_shdlc_rx(max_rx_data_len, rx_header, rx_data);
 }
 
@@ -151,9 +151,9 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
     uint8_t crc;
     uint8_t unstuff_next;
 
-//    len = sps_uart_recieve(2 + (5 + (uint16_t)max_data_len) * 2, rx_frame);
-//    if (len < 1 || rx_frame[0] != SHDLC_START)
-//        return SENSIRION_SHDLC_ERR_MISSING_START;
+   len = data_recieved(rx_frame);
+   if (len < 1 || rx_frame[0] != SHDLC_START)
+       return SENSIRION_SHDLC_ERR_MISSING_START;
 
     for (unstuff_next = 0, i = 1, j = 0; j < sizeof(*rxh) && i < len - 2; ++i) {
         if (unstuff_next) {
