@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include "Timer.h"
 
-
 /**
  * main.c
  */
@@ -14,7 +13,7 @@
 void main(void)
 {
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog timer
-    /*config_uart_gpio();
+    config_uart_gpio();
 	
     struct sps30_measurement m;
     char serial[32];
@@ -23,17 +22,17 @@ void main(void)
 
     while (config_sps_uart() != 0) {
         printf("UART init failed\n");
-        sps_sleep(1000000); *//* sleep for 1s */
-//    }
+        sps_sleep(1000000); /* sleep for 1s */
+    }
 
     /* Busy loop for initialization, because the main loop does not work without
      * a sensor.
      */
-  /*  while (sps30_probe() != 0) {
+    while (sps30_probe() != 0) {
         printf("SPS30 sensor probing failed\n");
-        sps_sleep(1000000); *//* sleep for 1s */
- //   }
-/*    printf("SPS30 sensor probing successful\n");
+        sps_sleep(1000000); /* sleep for 1s */
+    }
+    printf("SPS30 sensor probing successful\n");
 
     ret = sps30_get_serial(serial);
     if (ret)
@@ -76,8 +75,7 @@ void main(void)
                    m.nc_2p5, m.nc_4p0, m.nc_10p0, m.typical_particle_size);
         }
 
-        sps_sleep(1000000); *//* sleep for 1s */
-//    }
-delay_ms(27000);
-	while(1);
+        sps_sleep(1000000); /* sleep for 1s */
+    } while (1);
+
 }

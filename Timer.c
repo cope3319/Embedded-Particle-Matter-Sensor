@@ -11,6 +11,8 @@
 #include "Timer.h"
 //#include "GPIO.h"
 
+extern volatile uint8_t secs = 0;
+extern volatile uint8_t Tcount = 1;
 
 //need milliseconds
 void delay_ms(uint16_t period){
@@ -20,6 +22,7 @@ void delay_ms(uint16_t period){
 
 void delay_s(uint16_t seconds){
     uint16_t period;
+    secs = 20*seconds;
     period = Intperiod(20);
     timerA0_config(period);
 }
@@ -36,8 +39,17 @@ void timerA0_config(uint16_t period){
 
 
 void TA0_0_IRQHandler(void){
-    if(TIMER_A0->CCTL[0] == 0x0011 && ){// if interrupt flag up
+    if(TIMER_A0->CCTL[0] == 0x0011 && secs == 0){// if interrupt flag up
         stop_pwm();
+        //P2->OUT ^= BIT4;
+        TIMER_A0->CCTL[0] &= ~(0x0001); // turn interrupt flag down
+    }
+    if(TIMER_A0->CCTL[0] == 0x0011 && secs != 0){// if interrupt flag up
+        if(Tcount == secs){
+        stop_pwm();
+        Tcount = 1;
+        secs = 0;
+    }
         //P2->OUT ^= BIT4;
         TIMER_A0->CCTL[0] &= ~(0x0001); // turn interrupt flag down
     }
