@@ -1,22 +1,12 @@
-/*
- * GPIO.c
- *
- *  Created on: Nov 14, 2019
- *      Author: Kanin
- */
 
-#include "LCD.h"
+
 #include "msp.h"
-#include <string.h>
-#include <stdio.h>
-#include "Timer.h"
-#include "GPIO.h"
+#include "gpio.h"
 
-void SPS_PinConfig(){
-    P3->DIR |= 0b1000;//Pin 3 TX output
-    P3->DIR &= 0b0100;//Pin 2 RX input
-    P3->SEL0 |= 0b1000;
-    P3->SEL1 &= ~(0b0100);
+void config_uart_gpio(void){
+    P3->DIR |= 0b0001100; //Direction out for pins 3.2/3.3
+    P3->SEL0 |= 0b00001100;//sets 
+    P3->SEL1 &= ~(0b00001100);//sets 
 }
 
 void LCD_PinConfig(){
