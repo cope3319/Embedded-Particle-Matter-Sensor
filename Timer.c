@@ -50,6 +50,9 @@ void TA0_0_IRQHandler(void){
         Tcount = 1;
         secs = 0;
     }
+    else{
+        Tcount++;
+    }
         //P2->OUT ^= BIT4;
         TIMER_A0->CCTL[0] &= ~(0x0001); // turn interrupt flag down
     }
