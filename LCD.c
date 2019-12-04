@@ -10,7 +10,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "Timer.h"
-#include "GPIO.h"
+#include "gpio.h"
+
 
 
 #define RS          PORT2 + BIT7
@@ -21,7 +22,7 @@
 #define RS          PORT2 + BIT7
 
 void initialize_LCD(){
-    delay_ms(20);//atleast 40 ms            actual 50ms
+    delay_ms(20 );//atleast 40 ms            actual 50ms
     bitset();
     delay_ms(25000);//atleast 37 us         actual 40us
     twoline();
