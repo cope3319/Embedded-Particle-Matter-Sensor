@@ -21,6 +21,7 @@
 #define RS          PORT2 + BIT7
 
 void initialize_LCD(){
+    P2->OUT &= ~BIT4;//RW
     delay_ms(20);//atleast 40 ms            actual 50ms
     bitset();
     delay_ms(25000);//atleast 37 us         actual 40us
@@ -43,8 +44,8 @@ void initialize_LCD(){
 void bitset(){//set to four bit mode
     P2->OUT &= ~BIT6;//RS
     //P2->OUT &= ~BIT4;//RW
-    P6->OUT &= ~BIT7;//D7
-    P6->OUT &= ~BIT6;//D6
+    P6->OUT &= ~BIT6;//D7
+    P6->OUT &= ~BIT7;//D6
     P2->OUT |= BIT3;//D5
     P5->OUT &= ~BIT1;//D4
     toggleE();
@@ -53,13 +54,13 @@ void bitset(){//set to four bit mode
 void twoline(){
     P2->OUT &= ~BIT6;//RS
     //P2->OUT &= ~BIT4;//RW
-    P6->OUT &= ~BIT7;//D7
-    P6->OUT &= ~BIT6;//D6
+    P6->OUT &= ~BIT6;//D7
+    P6->OUT &= ~BIT7;//D6
     P2->OUT |= BIT3;//D5
     P5->OUT &= ~BIT1;//D4
     toggleE();
-    P6->OUT |= BIT7;//D7
-    P6->OUT &= ~BIT6;//D6
+    P6->OUT |= BIT6;//D7
+    P6->OUT &= ~BIT7;//D6
     P2->OUT &= ~BIT3;//D5
     P5->OUT &= ~BIT1;//D4
     toggleE();
@@ -68,13 +69,13 @@ void twoline(){
 void LCD_on(){
     P2->OUT &= ~BIT6;//RS
     //P2->OUT &= ~BIT4;//RW
-    P6->OUT &= ~BIT7;//D7
-    P6->OUT &= ~BIT6;//D6
+    P6->OUT &= ~BIT6;//D7
+    P6->OUT &= ~BIT7;//D6
     P2->OUT &= ~BIT3;//D5
     P5->OUT &= ~BIT1;//D4
     toggleE();
-    P6->OUT |= BIT7;//D7
-    P6->OUT |= BIT6;//D6
+    P6->OUT |= BIT6;//D7
+    P6->OUT |= BIT7;//D6
     P2->OUT &= ~BIT3;//D5
     P5->OUT &= ~BIT1;//D4
     toggleE();
@@ -83,15 +84,15 @@ void LCD_on(){
 void LCD_off(){
     P2->OUT &= ~BIT6;//RS
     //P2->OUT &= ~BIT4;//RW
-    P6->OUT &= ~BIT7;//D7
-    P6->OUT &= ~BIT6;//D6
+    P6->OUT &= ~BIT6;//D7
+    P6->OUT &= ~BIT7;//D6
     P2->OUT &= ~BIT3;//D5
     P5->OUT &= ~BIT1;//D4
     toggleE();
     //P2->OUT &= ~BIT6;//RS
     //P2->OUT &= ~BIT4;//RW
-    P6->OUT |= BIT7;//D7
-    P6->OUT &= ~BIT6;//D6
+    P6->OUT |= BIT6;//D7
+    P6->OUT &= ~BIT7;//D6
     P2->OUT |= BIT3;//D5
     P5->OUT |= BIT1;//D4
     toggleE();
@@ -99,15 +100,15 @@ void LCD_off(){
 void clear(){
     P2->OUT &= ~BIT6;//RS
     //P2->OUT &= ~BIT4;//RW
-    P6->OUT &= ~BIT7;//D7
-    P6->OUT &= ~BIT6;//D6
+    P6->OUT &= ~BIT6;//D7
+    P6->OUT &= ~BIT7;//D6
     P2->OUT &= ~BIT3;//D5
     P5->OUT &= ~BIT1;//D4
     toggleE();
     //P2->OUT &= ~BIT6;//RS
     //P2->OUT &= ~BIT4;//RW
-    P6->OUT &= ~BIT7;//D7
-    P6->OUT &= ~BIT6;//D6
+    P6->OUT &= ~BIT6;//D7
+    P6->OUT &= ~BIT7;//D6
     P2->OUT &= ~BIT3;//D5
     P5->OUT |= BIT1;//D4
     toggleE();
@@ -116,24 +117,24 @@ void clear(){
 void entrymode(){
     P2->OUT &= ~BIT6;//RS
     //P2->OUT &= ~BIT4;//RW
-    P6->OUT &= ~BIT7;//D7
-    P6->OUT &= ~BIT6;//D6
+    P6->OUT &= ~BIT6;//D7
+    P6->OUT &= ~BIT7;//D6
     P2->OUT &= ~BIT3;//D5
     P5->OUT &= ~BIT1;//D4
     toggleE();
     //P2->OUT &= ~BIT6;//RS
     //P2->OUT &= ~BIT4;//RW
-    P6->OUT &= ~BIT7;//D7
-    P6->OUT |= BIT6;//D6
+    P6->OUT &= ~BIT6;//D7
+    P6->OUT |= BIT7;//D6
     P2->OUT |= BIT3;//D5
     P5->OUT |= BIT1;//D4
     toggleE();
 }
 
 void toggleE(){
-    P2->OUT |= BIT4;
+    P5->OUT |= BIT6;
     delay_ms(20000);//minimum 140 ns       actual 5us
-    P2->OUT &= ~BIT4;
+    P5->OUT &= ~BIT6;
     
 }
 
@@ -173,16 +174,16 @@ while(data[j]!= '\0'){
 
 void convert(char val){
     if(val & 0b1000){
-    P6->OUT |= BIT7;
-    }
-    else{
-    P6->OUT &= ~BIT7;
-    }
-    if(val & 0b0100){
     P6->OUT |= BIT6;
     }
     else{
     P6->OUT &= ~BIT6;
+    }
+    if(val & 0b0100){
+    P6->OUT |= BIT7;
+    }
+    else{
+    P6->OUT &= ~BIT7;
     }
     if(val & 0b0010){
     P2->OUT |= BIT3;

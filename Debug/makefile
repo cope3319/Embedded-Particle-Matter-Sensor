@@ -129,34 +129,34 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-combine.out \
+FinalProjectECEN2440.out \
 
 EXE_OUTPUTS__QUOTED += \
-"combine.out" \
+"FinalProjectECEN2440.out" \
 
 BIN_OUTPUTS += \
-combine.hex \
+FinalProjectECEN2440.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"combine.hex" \
+"FinalProjectECEN2440.hex" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "combine.out"
+	@$(MAKE) --no-print-directory -Onone "FinalProjectECEN2440.out"
 
 # Tool invocations
-combine.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+FinalProjectECEN2440.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccs910/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"combine.map" --heap_size=1024 --stack_size=512 -i"C:/ti/ccs910/ccs/ccs_base/arm/include" -i"C:/ti/ccs910/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/lib" -i"C:/ti/ccs910/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="combine_linkInfo.xml" --rom_model -o "combine.out" $(ORDERED_OBJS)
+	"C:/ti/ccs910/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"FinalProjectECEN2440.map" --heap_size=1024 --stack_size=512 -i"C:/ti/ccs910/ccs/ccs_base/arm/include" -i"C:/ti/ccs910/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/lib" -i"C:/ti/ccs910/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="FinalProjectECEN2440_linkInfo.xml" --rom_model -o "FinalProjectECEN2440.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-combine.hex: $(EXE_OUTPUTS)
+FinalProjectECEN2440.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccs910/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/bin/armhex" --memwidth=8 --romwidth=8 -o "combine.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/ti/ccs910/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/bin/armhex" --memwidth=8 --romwidth=8 -o "FinalProjectECEN2440.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
