@@ -31,7 +31,12 @@
 
 #include "sensirion_shdlc.h"
 #include "sensirion_arch_config.h"
-#include "sensirion_uart.h"
+#include "sps30UART.h"
+#include "Timer.h"
+
+extern volatile uint8_t dataEx[256];
+extern volatile uint8_t lastVar;
+extern volatile uint8_t countEx;
 
 #define SHDLC_START 0x7e
 #define SHDLC_STOP 0x7e
@@ -110,14 +115,14 @@ int16_t sensirion_shdlc_xcv(uint8_t addr, uint8_t cmd, uint8_t tx_data_len,
     if (ret != 0)
         return ret;
 
-    sensirion_sleep_usec(RX_DELAY_US);
+    delay_ms(200000);
     return sensirion_shdlc_rx(max_rx_data_len, rx_header, rx_data);
 }
 
 int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
                            const uint8_t *data) {
     uint16_t len = 0;
-    int16_t ret;
+    //int16_t ret;
     uint8_t crc;
     uint8_t tx_frame_buf[SHDLC_FRAME_MAX_TX_FRAME_SIZE];
 
@@ -131,11 +136,7 @@ int16_t sensirion_shdlc_tx(uint8_t addr, uint8_t cmd, uint8_t data_len,
     len += sensirion_shdlc_stuff_data(1, &crc, tx_frame_buf + len);
     tx_frame_buf[len++] = SHDLC_STOP;
 
-    ret = sensirion_uart_tx(len, tx_frame_buf);
-    if (ret < 0)
-        return ret;
-    if (ret != len)
-        return SENSIRION_SHDLC_ERR_TX_INCOMPLETE;
+    sps_uart_send(len, tx_frame_buf);
     return 0;
 }
 
@@ -150,18 +151,18 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
     uint8_t crc;
     uint8_t unstuff_next;
 
-    len = sensirion_uart_rx(2 + (5 + (uint16_t)max_data_len) * 2, rx_frame);
-    if (len < 1 || rx_frame[0] != SHDLC_START)
-        return SENSIRION_SHDLC_ERR_MISSING_START;
+   len = data_recieved(rx_frame);
+   if (len < 1 || rx_frame[0] != SHDLC_START)
+       return SENSIRION_SHDLC_ERR_MISSING_START;
 
     for (unstuff_next = 0, i = 1, j = 0; j < sizeof(*rxh) && i < len - 2; ++i) {
         if (unstuff_next) {
-            rx_header[j++] = sensirion_shdlc_unstuff_byte(rx_frame[i]);
+            rx_header[j++] = sensirion_shdlc_unstuff_byte(dataEx[i]);
             unstuff_next = 0;
         } else {
-            unstuff_next = sensirion_shdlc_check_unstuff(rx_frame[i]);
+            unstuff_next = sensirion_shdlc_check_unstuff(dataEx[i]);
             if (!unstuff_next)
-                rx_header[j++] = rx_frame[i];
+                rx_header[j++] = dataEx[i];
         }
     }
     if (j != sizeof(*rxh) || unstuff_next)
@@ -172,12 +173,12 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
 
     for (unstuff_next = 0, j = 0; j < rxh->data_len && i < len - 2; ++i) {
         if (unstuff_next) {
-            data[j++] = sensirion_shdlc_unstuff_byte(rx_frame[i]);
+            data[j++] = sensirion_shdlc_unstuff_byte(dataEx[i]);
             unstuff_next = 0;
         } else {
-            unstuff_next = sensirion_shdlc_check_unstuff(rx_frame[i]);
+            unstuff_next = sensirion_shdlc_check_unstuff(dataEx[i]);
             if (!unstuff_next)
-                data[j++] = rx_frame[i];
+                data[j++] = dataEx[i];
         }
     }
 
@@ -187,9 +188,9 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
     if (j < rxh->data_len)
         return SENSIRION_SHDLC_ERR_ENCODING_ERROR;
 
-    crc = rx_frame[i++];
+    crc = dataEx[i++];
     if (sensirion_shdlc_check_unstuff(crc)) {
-        crc = sensirion_shdlc_unstuff_byte(rx_frame[i++]);
+        crc = sensirion_shdlc_unstuff_byte(dataEx[i++]);
         if (i >= len)
             return SENSIRION_SHDLC_ERR_MISSING_STOP;
     }
@@ -197,7 +198,7 @@ int16_t sensirion_shdlc_rx(uint8_t max_data_len,
                             data) != crc)
         return SENSIRION_SHDLC_ERR_CRC_MISMATCH;
 
-    if (i >= len || rx_frame[i] != SHDLC_STOP)
+    if (i >= len || dataEx[i] != SHDLC_STOP)
         return SENSIRION_SHDLC_ERR_MISSING_STOP;
 
     return 0;
