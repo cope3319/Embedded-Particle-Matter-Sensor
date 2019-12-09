@@ -142,7 +142,7 @@ void main(void)
             char p8[] = "#10=";
             char p9[] = "TypicalSize=";
             char p10[] = "#0.5=";
-float zero = 
+//            float zero =
             if(screen == 0 && m.typical_particle_size >= 0.1 && ret != -5){
             mm = m;
             writeto(p1,0,0);
@@ -190,7 +190,7 @@ float zero =
             }
             else{
             if(screen >= 18 && screen < 24 && m.typical_particle_size >= 0.1 && ret != -5){
-            writeto(p7,0,0);/
+            writeto(p7,0,0);
             writeto(p8,0,1);
             sprintf(number_string, "%.2f", mm.mc_10p0);
             writeto(number_string,7,0);
