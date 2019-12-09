@@ -142,8 +142,8 @@ void main(void)
             char p8[] = "#10=";
             char p9[] = "TypicalSize=";
             char p10[] = "#0.5=";
-
-            if(screen == 0 && m.typical_particle_size != 0 && ret != -5){
+float zero = 
+            if(screen == 0 && m.typical_particle_size >= 0.1 && ret != -5){
             mm = m;
             writeto(p1,0,0);
             writeto(p2,0,1);
@@ -153,7 +153,7 @@ void main(void)
             writeto(number_string,3,1);
             screen++;
             }
-            if(screen <= 5 && m.typical_particle_size != 0 && ret != -5){
+            if(screen <= 5 && m.typical_particle_size >= 0.1 && ret != -5){
             writeto(p1,0,0);
             writeto(p2,0,1);
             sprintf(number_string, "%.2f", mm.mc_1p0);
@@ -165,7 +165,7 @@ void main(void)
             screen++;
             }
             else{
-            if(screen >= 6 && screen < 12 && m.typical_particle_size != 0 && ret != -5){
+            if(screen >= 6 && screen < 12 && m.typical_particle_size >= 0.1 && ret != -5){
             writeto(p3,0,0);
             writeto(p4,0,1);
             sprintf(number_string, "%.2f", mm.mc_2p5);
@@ -177,7 +177,7 @@ void main(void)
             screen++;
             }
             else{
-            if(screen >= 12 && screen < 18 && m.typical_particle_size != 0 && ret != -5){
+            if(screen >= 12 && screen < 18 && m.typical_particle_size >= 0.1 && ret != -5){
             writeto(p5,0,0);
             writeto(p6,0,1);
             sprintf(number_string, "%.2f", mm.mc_4p0);
@@ -189,8 +189,8 @@ void main(void)
             screen++;
             }
             else{
-            if(screen >= 18 && screen < 24 && m.typical_particle_size != 0 && ret != -5){
-            writeto(p7,0,0);
+            if(screen >= 18 && screen < 24 && m.typical_particle_size >= 0.1 && ret != -5){
+            writeto(p7,0,0);/
             writeto(p8,0,1);
             sprintf(number_string, "%.2f", mm.mc_10p0);
             writeto(number_string,7,0);
@@ -201,7 +201,7 @@ void main(void)
             screen++;
             }
             else{
-            if(screen >= 24 && screen < 30 && m.typical_particle_size != 0 && ret != -5){
+            if(screen >= 24 && screen < 30 && m.typical_particle_size >= 0.1 && ret != -5){
             writeto(p9,0,0);
             writeto(p10,0,1);
             sprintf(number_string, "%.2f", mm.typical_particle_size);
@@ -211,7 +211,7 @@ void main(void)
             screen++;
             }
             else{
-            if(screen == 30 && m.typical_particle_size != 0 && ret != -5){
+            if(screen == 30 && m.typical_particle_size >= 0.1 && ret != -5){
             writeto(p9,0,0);
             writeto(p10,0,1);
             sprintf(number_string, "%.2f", mm.typical_particle_size);
