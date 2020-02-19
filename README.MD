@@ -26,8 +26,6 @@ Written by Us:
 * **Samuel Diaz** - samuel.diaz@colorado.edu - [GitHub](https://github.com/samueldiaz970)
 
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
 ## Acknowledgments
 
 * Sensirion for their frame layer and basic SPS30 command code.
