@@ -2,8 +2,9 @@
  * Timer.c
  *
  *  Created on: Nov 14, 2019
- *      Author: Kanin
+ *      Author: Kanin and Connor
  */
+
 //#include "LCD.h"
 #include "msp.h"
 #include <string.h>

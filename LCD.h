@@ -13,9 +13,6 @@
 #include <stdio.h>
 #include "Timer.h"
 #include "GPIO.h"
-//typedef float float32_t;
-
-
 
 void    initialize_LCD();
 void    bitset();

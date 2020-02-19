@@ -1,7 +1,6 @@
-
 /*
    > sps30UART.h
-   > Authors: Connor Peskin , Samuel Diaz, Kanin McGuire
+   > Author: Connor Peskin
 */
 
 #ifndef SPS30UART_H

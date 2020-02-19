@@ -1,6 +1,6 @@
 /*
    > sps30UART.c
-   > Authors: Connor Peskin , Samuel Diaz, Kanin McGuire
+   > Author: Connor Peskin 
 */
 
 #include <stdint.h>
